@@ -1,0 +1,24 @@
+{
+	"FileVersion": 1,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "TeamCity",
+	"Description": "Interfaces with TeamCity to support the running of personal builds and viewing a user's build history directly from within Unreal Engine 4.",
+	"Category": "Rewind",
+	"CreatedBy": "Rewind",
+	"CreatedByURL": "http://rewind.co",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": true,
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"Installed": true,
+	"Modules": [
+        {
+          "Name": "TeamCityEditor",
+          "Type": "Editor",
+          "LoadingPhase": "PostEngineInit"
+        }
+	]
+} 
