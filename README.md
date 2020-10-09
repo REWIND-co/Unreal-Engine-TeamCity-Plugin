@@ -36,4 +36,4 @@ The Build History tab surfaces all of the personal builds that you have triggere
 
 ### Known Issues
 
-We built the tool to use internally at REWIND, with the focus on being integrated with Perforce (our version control system of choice), however, we built it with the mindset that it could easily be extended to support other VCS, like GitHub, Plastic etc. If you want to extend the plugin to support your preferred version control system, take a look at the 'TeamCityGetBuildConfigs::GetSupportedSourceControlProvider' as a good starting point.
+We built the tool to use internally at REWIND, with the focus on being integrated with Perforce (our version control system of choice), however, we built it with the mindset that it could easily be extended to support other VCS, like GitHub, Plastic etc. If you want to extend the plugin to support your preferred version control system, take a look at `TeamCityGetBuildConfigs::GetSupportedSourceControlProvider` as a good starting point.
