@@ -10,7 +10,7 @@ Once you have validated that the TeamCity plugin is enabled, you can now access 
 
 ### Personal Build tab
 
-The Personal Build tab is where you can select the changes you wish to commit to a personal build, and run the personal build. You will first need to ensure you are connected to source control in Unreal, and then click on the red button at the top right of the tab. This will open the TeamCity settings window. Here, you should type in the server address (Typically [http://build.rewind.local:8090/](http://www.google.com/url?q=http%3A%2F%2Fbuild.rewind.local%3A8090%2F&sa=D&sntz=1&usg=AFQjCNFDadXf1bhOdPRPAX6GegzeoVYBKA) , this will automatically be filled in for you), and then your TeamCity login credentials.
+The Personal Build tab is where you can select the changes you wish to commit to a personal build, and run the personal build. You will first need to ensure you are connected to source control in Unreal, and then click on the red button at the top right of the tab. This will open the TeamCity settings window. Here, you should type in the server address and then your TeamCity login credentials.
 
 ![](Docs/Images/login.png)
 
