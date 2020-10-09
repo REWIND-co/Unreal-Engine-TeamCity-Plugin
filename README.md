@@ -33,3 +33,7 @@ You can also cancel the build by clicking the 'cancel' button.
 The Build History tab surfaces all of the personal builds that you have triggered for this project. The view is filtered to only show your own personal builds, and displays the status of the build on the left (success/cancelled/failed). You can click on either the time started or the build type links to open the build page for any of these builds.
 
 ![](Docs/Images/build_history.png)
+
+### Known Issues
+
+We built the tool to use internally at REWIND, with the focus on being integrated with Perforce (our version control system of choice), however, we built it with the mindset that it could easily be extended to support other VCS, like GitHub, Plastic etc. If you want to extend the plugin to support your preferred version control system, take a look at the 'TeamCityGetBuildConfigs::GetSupportedSourceControlProvider' as a good starting point.
