@@ -21,9 +21,9 @@ FString FTeamCityWebAPI::GetCSRF()
 	return TeamCityCSRF;
 }
 
-TSharedRef<IHttpRequest> FTeamCityWebAPI::PrepareGetRequest(const FString& TeamCityAPIFunction)
+TSharedRef<IHttpRequest, ESPMode::ThreadSafe> FTeamCityWebAPI::PrepareGetRequest(const FString& TeamCityAPIFunction)
 {
-	TSharedRef<IHttpRequest> HttpRequest = FHttpModule::Get().CreateRequest();
+	TSharedRef<IHttpRequest, ESPMode::ThreadSafe> HttpRequest = FHttpModule::Get().CreateRequest();
 
 	const UTeamCitySettings* Settings = GetMutableDefault<UTeamCitySettings>();
 	FString URL(Settings->Server.ToString());
