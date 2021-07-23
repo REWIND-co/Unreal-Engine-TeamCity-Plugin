@@ -520,6 +520,14 @@ RunPersonalBuildItemPtr ConvertToRunPersonalBuildItem(BuildConfigPtr BuildConfig
 
 void STeamCityRunPersonalBuildWidget::OnGetBuildConfigs(BuildConfigPtr RootBuildConfig)
 {
+	// @RossB: !HOTFIX TODO: Currently, configs refresh their tree view intermittently. This can cause an issue when uploading
+	// a personal build with many changes, as the chosen config is lost during the upload and results in an assert being hit.
+	// To unblock the team, we simply early out of this function.
+	if (IsProcessingPersonalBuild)
+	{
+		return;
+	}
+
 	Items.Empty();
 
 	if (RootBuildConfig.IsValid())

@@ -34,7 +34,6 @@ private:
 
 	void CopyCheckState(FilePtr Dest, FilePtr Source) const;
 	void OnUpdatedSourceControlStatus(const FSourceControlOperationRef& InOperation, ECommandResult::Type InResult);
-	void OnUpdatedSourceControlHistory(const FSourceControlOperationRef& InOperation, ECommandResult::Type InResult);
 
 	TArray<FSourceControlStateRef> GetPendingSourceControlItems() const;
 

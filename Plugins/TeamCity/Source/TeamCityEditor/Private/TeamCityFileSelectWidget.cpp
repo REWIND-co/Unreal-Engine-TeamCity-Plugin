@@ -236,26 +236,13 @@ void STeamCityFileSelectWidget::RefreshItems()
 
 	if (ConnectedToSourceControl) 
 	{
-		// first perform a fast update status request for all files in the project
+		// perform an update status request for all files in the project
 		TSharedRef<FUpdateStatus, ESPMode::ThreadSafe> UpdateStatusOperation = ISourceControlOperation::Create<FUpdateStatus>();
 		ISourceControlModule::Get().GetProvider().Execute(UpdateStatusOperation, UpdateStatusPaths, EConcurrency::Asynchronous, FSourceControlOperationComplete::CreateSP(this, &STeamCityFileSelectWidget::OnUpdatedSourceControlStatus));
 	}
 }
 
 void STeamCityFileSelectWidget::OnUpdatedSourceControlStatus(const FSourceControlOperationRef& InOperation, ECommandResult::Type InResult)
-{
-	const TArray<FSourceControlStateRef> PendingItems(GetPendingSourceControlItems());
-
-	// perform a slower update history request on all items we've identified as pending
-	TArray<FString> UpdateHistoryPaths;
-	for (auto& PendingItem : PendingItems) { UpdateHistoryPaths.Emplace(PendingItem->GetFilename()); }
-
-	TSharedRef<FUpdateStatus, ESPMode::ThreadSafe> UpdateStatusOperation = ISourceControlOperation::Create<FUpdateStatus>();
-	UpdateStatusOperation->SetUpdateHistory(true);
-	ISourceControlModule::Get().GetProvider().Execute(UpdateStatusOperation, UpdateHistoryPaths, EConcurrency::Asynchronous, FSourceControlOperationComplete::CreateSP(this, &STeamCityFileSelectWidget::OnUpdatedSourceControlHistory));
-}
-
-void STeamCityFileSelectWidget::OnUpdatedSourceControlHistory(const FSourceControlOperationRef& InOperation, ECommandResult::Type InResult)
 {
 	FString ScanPath = FPaths::ProjectDir();
 	if (ScanPath.EndsWith(TEXT("/"))) { ScanPath = ScanPath.Left(ScanPath.Len() - 1); } // trim the last slash

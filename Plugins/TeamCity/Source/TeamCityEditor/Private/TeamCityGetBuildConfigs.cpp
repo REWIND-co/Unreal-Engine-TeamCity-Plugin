@@ -313,8 +313,7 @@ void FTeamCityGetBuildConfig::ProcessUnsupportedBuildTypesXml(const FXmlFile& Xm
 
 void FTeamCityGetBuildConfig::OnGetTeamCityProjects(FHttpRequestPtr HttpRequest, FHttpResponsePtr HttpResponse, bool bSucceeded) const
 {
-	// note: this algorithm works because teamcity returns a list of projects in hierarchically descending order. if this functionality changes, then this algorithm will break
-
+	// first build out the whole hierarchical tree of build configs
 	BuildConfigPtr RootBuildConfig;
 	const bool GotValidResponse = bSucceeded && HttpResponse->GetResponseCode() == 200;
 	if (GotValidResponse)
@@ -328,17 +327,25 @@ void FTeamCityGetBuildConfig::OnGetTeamCityProjects(FHttpRequestPtr HttpRequest,
 			check(RootNode->GetTag() == TEXT("projects"));
 
 			const TArray<FXmlNode*>& Projects = RootNode->GetChildrenNodes();
-			for (auto& Project : Projects)
+			if (Projects.Num() > 0)
 			{
-				FString Id(Project->GetAttribute(TEXT("id")));
-				FString Name(Project->GetAttribute(TEXT("name")));
-				FString ParentProjectID(Project->GetAttribute(TEXT("parentProjectId")));
+				{
+					const FXmlNode* RootProject = RootNode->GetFirstChildNode(); // assume the root project is always the first child
+					FString RootProjectId(RootProject->GetAttribute(TEXT("id")));
+					FString RootProjectName(RootProject->GetAttribute(TEXT("name")));
+					RootBuildConfig = BuildConfigPtr(new FBuildConfigItem(RootProjectId, RootProjectName, nullptr));
+				}
 
-				BuildConfigPtr ParentProjectConfig = FindBuildConfigByID(ParentProjectID, RootBuildConfig);
-				BuildConfigPtr ProjectConfig = BuildConfigPtr(new FBuildConfigItem(Id, Name, ParentProjectConfig));
-				if (ParentProjectConfig.IsValid()) { ParentProjectConfig->GetChildren().Emplace(ProjectConfig); }
+				for (auto& Project : Projects)
+				{
+					FString Id(Project->GetAttribute(TEXT("id")));
+					FString Name(Project->GetAttribute(TEXT("name")));
+					FString ParentProjectID(Project->GetAttribute(TEXT("parentProjectId")));
 
-				if (ParentProjectConfig.IsValid() == false) { RootBuildConfig = ProjectConfig; }
+					BuildConfigPtr ParentProjectConfig = FindBuildConfigByID(ParentProjectID, RootBuildConfig);
+					BuildConfigPtr ProjectConfig = BuildConfigPtr(new FBuildConfigItem(Id, Name, ParentProjectConfig));
+					if (ParentProjectConfig.IsValid()) { ParentProjectConfig->GetChildren().Emplace(ProjectConfig); }
+				}
 			}
 		}
 	}
